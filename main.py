@@ -1,5 +1,6 @@
 import products
 import store
+import promotions
 
 
 class Humbertos_Store:
@@ -9,11 +10,19 @@ class Humbertos_Store:
             products.Product("Dumbbells 50kg", price=550, quantity=100),
             products.Product("Barbells 20kg", price=150, quantity=300),
             products.Product("Retract bench", price=50, quantity=100),
-            products.Product("Smith machine", price=1450, quantity=3),
-            products.Product("strappers", price=50, quantity=300)
+            products.Non_Stocked("Smith machine", price=1450),
+            products.Limited("strappers", price=50, quantity=300, maximum=2)
         ]
 
-        self.items = store.Store(self.product_list)
+        second_half_price = promotions.SecondHalfPrice("Second Half price!")
+        third_one_free = promotions.ThirdFree("Third One Free!")
+        thirty_percent = promotions.Percentage("30% off!", percent=30)
+
+        self.product_list[0].set_promotion(second_half_price)
+        self.product_list[1].set_promotion(third_one_free)
+        self.product_list[3].set_promotion(thirty_percent)
+
+        self.items_in_store = store.Store(self.product_list)
 
     def show_product_list(self):
         print("--Product List---")
@@ -37,7 +46,16 @@ class Humbertos_Store:
         print("1. List all products in store")
         print("2. Show total amount in store")
         print("3. Make an order")
-        print("4. Exit\n")
+        print("4. Check if product exists")
+        print("5. Exit\n")
+
+    def check_if_product_exists(self):
+        product_name = input("Enter the product name: ")
+        exists = any(product.name.lower() == product_name.lower() for product in self.items_in_store.products)
+        if exists:
+            print(f"The product '{product_name}' exists in the store.\n")
+        else:
+            print(f"The product '{product_name}' does not exist in the store.\n")
 
     def make_order(self):
         order_list = []
@@ -114,6 +132,8 @@ class Humbertos_Store:
             elif option == 3:
                 self.make_order()
             elif option == 4:
+                self.check_if_product_exists()
+            elif option == 5:
                 print('Thanks for visiting!')
                 exit()
             else:
