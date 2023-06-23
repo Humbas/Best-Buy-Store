@@ -3,7 +3,7 @@ from products import Product
 
 
 def test_product():
-    """this will test if it returns an existing product with the expected parameters"""
+    """This will test if it returns an existing product with the expected parameters"""
     assert Product("Barbells 20kg", price=20, quantity=50)
 
     """a product should be deactivated in its quantity reaches zero"""
@@ -11,7 +11,7 @@ def test_product():
 
     """testing if is active, should be inactive if quantity is zero"""
     assert barbell_press.is_active() is True
-    """setting to zero and test activess"""
+    """ setting to zero and test activess"""
 
     barbell_press.set_quantity(0)
     assert barbell_press.is_active() is False
