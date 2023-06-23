@@ -10,19 +10,19 @@ class Humbertos_Store:
             products.Product("Dumbbells 50kg", price=550, quantity=100),
             products.Product("Barbells 20kg", price=150, quantity=300),
             products.Product("Retract bench", price=50, quantity=100),
-            products.Non_Stocked("Smith machine", price=1450),
-            products.Limited("strappers", price=50, quantity=300, maximum=2)
+            products.Limited("Smith machine", price=1450, quantity=2, maximum=3),
+            products.Non_Stocked("strappers", price=50)
         ]
 
         second_half_price = promotions.SecondHalfPrice("Second Half price!")
         third_one_free = promotions.ThirdFree("Third One Free!")
-        thirty_percent = promotions.Percentage("30% off!", percent=30)
+        thirty_percent = promotions.Percentage("30% off!",  percent=30 )
 
         self.product_list[0].set_promotion(second_half_price)
         self.product_list[1].set_promotion(third_one_free)
         self.product_list[3].set_promotion(thirty_percent)
 
-        self.items_in_store = store.Store(self.product_list)
+        self.items = store.Store(self.product_list)
 
     def show_product_list(self):
         print("--Product List---")
@@ -90,12 +90,9 @@ class Humbertos_Store:
                 pdict = product.product_dict()
                 p_name = pdict['name']
                 p_quantity = pdict['quantity']
-                p_price = pdict['price']
                 if product_name in p_name:
                     if p_quantity >= quantity:
-                        order_list.append((p_name, quantity, p_price))
-                        # subtract
-                        product.buy(quantity)
+                        order_list.append((p_name, quantity, p_quantity, product.buy(quantity)))
                         print("Product added to the order list!")
                     else:
                         print("Insufficient quantity available!")
@@ -105,12 +102,11 @@ class Humbertos_Store:
             print("**********")
             print("Your order is formed by :")
             sum = 0
-            for product, quantity, p_price in order_list:
-                print(
-                    f"{product} with the quantity of {quantity} at the unitary cost of ${p_price} which costs you ${quantity * p_price}")
-                sum += quantity * p_price
-            print(f"Therefore the total amount of your order is ${sum}")
-
+            for p_name, quantity, p_quantity, total_per_product in order_list:
+                print(f"{p_name} with the quantity of {quantity} wich totalizes ${total_per_product}")
+                print(p_quantity)
+                sum += total_per_product
+            print(f"Total order amount is ${sum}")
             print("**********")
         # Add exception handling for unexpected errors
         except ValueError as error:
@@ -121,7 +117,7 @@ class Humbertos_Store:
             self.show_menu()
             option = ''
             try:
-                option = int(input('Please insert a number between 1 and 4: '))
+                option = int(input('Please insert a number between 1 and 5: '))
             except:
                 print('Wrong input. Please enter a number ...')
             # Check what choice was entered accordingly
@@ -144,3 +140,4 @@ if __name__ == "__main__":
     # initiate the class
     hs = Humbertos_Store()
     hs.start()
+

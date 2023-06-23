@@ -1,3 +1,4 @@
+import math
 class Product:
 
     def __init__(self, name, price, quantity):
@@ -53,29 +54,36 @@ class Product:
         print(str(self.name) + ", Price: " + str(self.price) + ", Quantity:" + str(self.quantity))
 
     def buy(self, quantity) -> float:
-        try:
-            if quantity < 0:
-                raise ValueError(" Quantity should be higher than zero")
-            if quantity > self.quantity:
-                raise ValueError("Not enough quantity!")
-            else:
-                self.quantity = self.quantity - quantity
-                total_price = self.quantity * self.price
-                return total_price
+        if quantity <= 0:
+            print("Quantity to buy must be greater than zero.")
 
-        except TypeError:
-            print("Please insert a number!")
+        elif not self.active:
+            print("Cannot buy an inactive product.")
+
+        elif quantity > self.quantity:
+            print("Not enough quantity available.")
+
+        elif self.promotion:
+            total_price = self.promotion.add_promotion(self, quantity)
+        else:
+            total_price = self.price * quantity
+            # subtract quantity from storage
+        self.quantity -= quantity
+
+        return total_price
 
     # this is one of my own functions
     def show_product(self):
-        return f'{self.name}, Price: {self.price}, Quantity: {self.quantity}'
+        promotion_information = f"Promotion: {self.promotion.name}" if self.promotion else "No promotion"
+        return f'{self.name}, Price: ${self.price}, Quantity: {self.quantity}, {promotion_information}'
 
     # this one is for my own use in the order section
     def product_dict(self) -> dict:
         product = {
             'name': self.name,
             'price': self.price,
-            'quantity': self.quantity
+            'quantity': self.quantity,
+            'promotion': self.promotion
         }
         return product
 
@@ -91,13 +99,13 @@ class Non_Stocked(Product):
     """no need to keep quantity track"""
 
     def __init__(self, name, price):
-        super().__init__(name, price, quantity = 0)
-
+        super().__init__(name, price, quantity=0)
 
     # re-articulating show() method
-    def show(self):
+    def show_product(self):
         """if quantity is zero, lets say its unlimited"""
-        if self.quantity == 0:
+        if self.quantity ==0:
+            """set it unlimited"""
             return f'{self.name}, Price {self.price}, Quantity: Its unlimited!'
         else:
             return super().show()
@@ -114,22 +122,18 @@ class Limited(Product):
         self.maximum = maximum
 
     # new methods
+
     def show(self):
-        return f'{self.name}, Price {self.price},  Limit per order: {self.maximum}'
+        return f'{self.name}, Price: {self.price}, Limited to {self.maximum} per order'
 
     def buy(self, quantity):
         if quantity > self.maximum:
-            raise ValueError("Maximum amount per order of this product exceeded")
+            print("Quantity exceeds the maximum limit for this product.")
 
-        if quantity > self.quantity:
-            raise ValueError("There is not enough quantity available")
-
-        self.quantity = self.quantity - quantity
-        total_price = self.quantity * self.price
-        return total_price
-
-
-
-
-
+        elif quantity > self.quantity:
+            print("Not enough quantity available.")
+        else:
+            self.quantity -= quantity
+            total_price = self.price * quantity
+            return total_price
 
