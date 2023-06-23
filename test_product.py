@@ -3,25 +3,25 @@ from products import Product
 
 
 def test_product():
-    """This will test if it returns an existing product with the expected parameters"""
+    """ This will test if it returns an existing product with the expected parameters"""
     assert Product("Barbells 20kg", price=20, quantity=50)
 
-    """a product should be deactivated in its quantity reaches zero"""
+    "a product should be deactivated in its quantity reaches zero"""
     barbell_press = Product("Incline Barbell press", price=740, quantity=1)
 
-    """testing if is active, should be inactive if quantity is zero"""
+    "testing if is active, should be inactive if quantity is zero"""
     assert barbell_press.is_active() is True
     """ setting to zero and test activess"""
 
     barbell_press.set_quantity(0)
     assert barbell_press.is_active() is False
 
-    """testing modifications on quantity"""
+    "testing modifications on quantity"""
     barbell_press.set_quantity(1)
     barbell_press.buy(1)
     assert barbell_press.get_quantity() == 0
 
-    """using pytest method raises ValueError when error messages are found,
+    """ using pytest method raises ValueError when error messages are found,
        that error messages should match the ones in the product constructor algorythm"""
 
     """testing large quantities with ValueError raises,"""
