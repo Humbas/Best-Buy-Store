@@ -3,7 +3,7 @@ import store
 import promotions
 
 
-class Humbertos_Store:
+class humberto_store:
     def __init__(self):
 
         self.product_list = [
@@ -16,7 +16,7 @@ class Humbertos_Store:
 
         second_half_price = promotions.SecondHalfPrice("Second Half price!")
         third_one_free = promotions.ThirdFree("Third One Free!")
-        thirty_percent = promotions.Percentage("30% off!",  percent=30 )
+        thirty_percent = promotions.Percentage("30% off!", percent=30)
 
         self.product_list[0].set_promotion(second_half_price)
         self.product_list[1].set_promotion(third_one_free)
@@ -51,7 +51,7 @@ class Humbertos_Store:
 
     def check_if_product_exists(self):
         product_name = input("Enter the product name: ")
-        exists = any(product.name.lower() == product_name.lower() for product in self.items_in_store.products)
+        exists = any(product.name.lower() == product_name.lower() for product in self.items.products)
         if exists:
             print(f"The product '{product_name}' exists in the store.\n")
         else:
@@ -101,12 +101,11 @@ class Humbertos_Store:
         try:
             print("**********")
             print("Your order is formed by :")
-            sum = 0
+            sumatory = 0
             for p_name, quantity, p_quantity, total_per_product in order_list:
                 print(f"{p_name} with the quantity of {quantity} wich totalizes ${total_per_product}")
-                print(p_quantity)
-                sum += total_per_product
-            print(f"Total order amount is ${sum}")
+                sumatory += total_per_product
+            print(f"Total order amount is ${sumatory}")
             print("**********")
         # Add exception handling for unexpected errors
         except ValueError as error:
@@ -118,7 +117,7 @@ class Humbertos_Store:
             option = ''
             try:
                 option = int(input('Please insert a number between 1 and 5: '))
-            except:
+            except TypeError:
                 print('Wrong input. Please enter a number ...')
             # Check what choice was entered accordingly
             if option == 1:
@@ -138,6 +137,5 @@ class Humbertos_Store:
 
 if __name__ == "__main__":
     # initiate the class
-    hs = Humbertos_Store()
+    hs = humberto_store()
     hs.start()
-

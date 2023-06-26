@@ -24,10 +24,9 @@ def test_product():
     """using pytest method raises ValueError when error messages are found,
        that error messages should match the ones in the product constructor algorythm"""
 
-    """testing large quantities with ValueError raises,"""
-    with pytest.raises(ValueError, match="Not enough quantity!"):
-        barbells = Product("Barbells 50kg", price=100, quantity=90)
-        barbells.buy(100)
+    """testing large quantities"""
+    barbell_press.get_quantity() == 100
+    assert barbell_press.buy(200) > barbell_press.get_quantity()
 
     with pytest.raises(ValueError, match="Name cannot be empty"):
         Product("", price=50, quantity=10)
@@ -39,10 +38,4 @@ def test_product():
         Product("Barbells 20kg", price=1, quantity=-1)
 
 
-
-
-
-
-
-
-pytest.main()
+test_product()

@@ -1,4 +1,6 @@
 import math
+
+
 class Product:
 
     def __init__(self, name, price, quantity):
@@ -54,6 +56,7 @@ class Product:
         print(str(self.name) + ", Price: " + str(self.price) + ", Quantity:" + str(self.quantity))
 
     def buy(self, quantity) -> float:
+        total_price = 0
         if quantity <= 0:
             print("Quantity to buy must be greater than zero.")
 
@@ -69,7 +72,6 @@ class Product:
             total_price = self.price * quantity
             # subtract quantity from storage
         self.quantity -= quantity
-
         return total_price
 
     # this is one of my own functions
@@ -104,7 +106,7 @@ class Non_Stocked(Product):
     # re-articulating show() method
     def show_product(self):
         """if quantity is zero, lets say its unlimited"""
-        if self.quantity ==0:
+        if self.quantity == 0:
             """set it unlimited"""
             return f'{self.name}, Price {self.price}, Quantity: Its unlimited!'
         else:
@@ -136,4 +138,3 @@ class Limited(Product):
             self.quantity -= quantity
             total_price = self.price * quantity
             return total_price
-
