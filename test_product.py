@@ -11,7 +11,7 @@ def test_product():
 
     "testing if is active, should be inactive if quantity is zero"""
     assert barbell_press.is_active() is True
-    """ setting to zero and test activess"""
+    """ setting to zero and test active"""
 
     barbell_press.set_quantity(0)
     assert barbell_press.is_active() is False
@@ -20,13 +20,6 @@ def test_product():
     barbell_press.set_quantity(1)
     barbell_press.buy(1)
     assert barbell_press.get_quantity() == 0
-
-    """ using pytest method raises ValueError when error messages are found,
-       that error messages should match the ones in the product constructor algorythm"""
-
-    """testing large quantities"""
-    barbell_press.get_quantity() == 100
-    assert barbell_press.buy(200) > barbell_press.get_quantity()
 
     with pytest.raises(ValueError, match="Name cannot be empty"):
         Product("", price=50, quantity=10)

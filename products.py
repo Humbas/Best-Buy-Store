@@ -134,6 +134,7 @@ class Limited(Product):
 
         elif quantity > self.quantity:
             print("Not enough quantity available.")
+
         else:
             self.quantity -= quantity
             total_price = self.price * quantity
